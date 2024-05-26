@@ -1,7 +1,7 @@
 import typer
 import os
-import shutil
 import git
+from typing import Optional
 from rich import print
 
 app = typer.Typer()
@@ -11,6 +11,7 @@ root = f"{os.path.expanduser("~")}/.gitrm"
 def callback():
     """
     Manage and install git repositories with caching, and more all within your terminal
+    
     Source Code: https://github.com/hyerland/git-rm
     """
     if not os.path.exists(f"{os.path.expanduser("~")}/.gitrm"):
@@ -27,7 +28,7 @@ def callback():
         pass
     
 @app.command()
-def clone(url: str, branch: str = 'main', override: bool = False):
+def clone(url: str, branch: str = 'main', override: Optional[bool] = False):
     """
     Grabs a git URL and clones the repository then caches for future usage.
     """
@@ -41,9 +42,4 @@ def clone(url: str, branch: str = 'main', override: bool = False):
     except git.GitCommandError:
         print("[red]Repository has already been cloned! Use the flag, [bold]`--override`[/bold] to do a fresh install.")
 
-@app.command()
-def load():
-    """
-    Load the portal gun
-    """
-    typer.echo("Loading portal gun")
+    print(f"Successfully cloned, [green][dim]'{url}'[/dim][/green] and stored within cache.")
